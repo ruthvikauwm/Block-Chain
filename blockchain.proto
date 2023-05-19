@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+
+
+service blockchain {
+    rpc issueTX (issue_tx) returns (tx_hash) {}    
+    rpc printBlockchain (print_request) returns (EmptyMessage) {}
+    rpc propBlock (append_block_request) returns (block_status) {}
+    rpc updateReplica (update_replica) returns (replica_status) {}
+    rpc suspend (suspend_request) returns (EmptyMessage) {}
+    }
+        
+message EmptyMessage {}
+        
+message issue_tx {
+    int64 src = 1;
+    int64 dst = 2;
+    float amnt = 3;
+    float reward = 4;
+    float timestamp = 5;
+}
+
+message tx_hash {
+    string hash = 1;
+}
+
+
+message print_request {
+    int64 src = 1;
+    int64 dst = 2;
+}
+
+
+message append_block_request {
+    int64 chain_length = 1;
+    string transactions = 2;
+    int64 block_hash = 3;
+    int64 prev_hash = 4;
+    int64 nonce = 5;
+    int32 src_server = 6;
+}
+
+message block_status {
+    bool status = 1;
+    int32 chain_len = 2;
+    string block_hashes = 3;
+}
+
+message update_replica {
+    int64 last_common_block_index = 1;
+    int64 last_common_block_hash = 2;
+    
+    int64 block_hash = 4;
+    string transactions = 5;
+    int64 nonce = 6;
+    int32 miner = 7;
+}
+
+message replica_status {
+    int64 last_block_hash = 1;
+    bool block_status = 2;
+}
+
+message suspend_request {
+  int64 temp = 1;
+}
